@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/CMakeFiles/bootloader
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/CMakeFiles/bootloader.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/CMakeFiles/bootloader-complete.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/abhigya/Documents/Projects/AudioVisualiser/led_visualiser/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
