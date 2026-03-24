@@ -1,0 +1,26 @@
+# ESP-IDF build
+build/
+main/build/
+
+# Managed components
+managed_components/
+
+# Logs
+*.log
+build/log/
+
+# Python env
+.espressif/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.bin
+*.elf
+*.map
+*.o
+
+# Dependency lock (optional)
+dependencies.lock
