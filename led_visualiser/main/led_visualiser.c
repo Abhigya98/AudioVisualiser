@@ -102,27 +102,161 @@ void moving_dot()
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
+void draw_box(int x_start, int y_start, int x_finish, int y_finish)
+{
+    matrix_clear(); 
+    for(int x = x_start; x <=x_finish; x++)
+    {
+        for(int y=y_start; y <=y_finish; y++)
+        {
+            if(x== x_start || x == x_finish || y==y_start||y==y_finish)
+            matrix_set_pixel(x,y,5,0,20);
+            // matrix_set_pixel(x, y, x * 10, y * 10, 0);
+        }
+    }
+    led_strip_refresh(led_strip);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+}
+void concentric_squares()
+{
+    while(1)
+    {
+        int x = 3;
+        int y =3;
+        int x_max = x*4;
+        int y_max = y*4;
+
+        while(x <= 8 && y <= 8)
+        {
+            draw_box(x++, y++,x_max--,y_max--);
+
+        }
+        // draw_box();
+    }
+
+}
+void bouncing_dot()
+{
+    int x = 0;
+    int dir = 3;
+
+    while(1)
+    {
+        int y = rand()%MATRIX_HEIGHT;
+        matrix_clear();
+
+        matrix_set_pixel(x, y, 255, 0, 255);
+
+        led_strip_refresh(led_strip);
+        vTaskDelay(pdMS_TO_TICKS(100));
+
+        x += dir;
+
+        if(x == 0 || x == MATRIX_WIDTH - 1)
+            dir = -dir;
+    }
+}
+
+void moving_vertical_bar()
+{ 
+    while(1)
+    {
+        
+        for(int y =0; y<MATRIX_HEIGHT;y++)
+        {
+            matrix_clear();
+            for(int x = 0; x < MATRIX_WIDTH; x++)
+            {
+                matrix_set_pixel(x, y, 50, 50, 60);
+            }
+            led_strip_refresh(led_strip);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        }
+        
+
+    }
+}
+typedef struct
+{
+    int x;
+    int y;
+} raindrop_t;
+#define MAX_DROPS 20
+
+raindrop_t drops[MAX_DROPS];
+
+void rain_init()
+{
+    for(int i = 0; i < MAX_DROPS; i++)
+    {
+        drops[i].x = rand() % MATRIX_WIDTH;
+        drops[i].y = 0;//rand() % MATRIX_HEIGHT;
+    }
+}
+
+void rain_update()
+{
+    for(int i = 0; i < MAX_DROPS; i++)
+    {
+        drops[i].y++;
+
+        // If it goes off screen → respawn
+        if(drops[i].y >= MATRIX_HEIGHT)
+        {
+            drops[i].y = 0;
+            drops[i].x = rand() % MATRIX_WIDTH;
+        }
+
+        // Random respawn (adds natural variation)
+        else if(rand() % 10 == 0)
+        {
+            drops[i].y = 0;
+            drops[i].x = rand() % MATRIX_WIDTH;
+        }
+    }
+}
+void rain_draw()
+{
+    matrix_clear();
+
+    for(int i = 0; i < MAX_DROPS; i++)
+    {
+        int x = drops[i].x;
+        int y = drops[i].y;
+
+        // head
+        matrix_set_pixel(x, y, 10, 10, 50);
+
+        // tail
+        if(y - 1 >= 0)
+            matrix_set_pixel(x, y - 1, 5, 5, 20);
+
+        if(y - 2 >= 0)
+            matrix_set_pixel(x, y - 2, 2, 2, 10);
+    }
+
+    led_strip_refresh(led_strip);
+}
+void rain_effect()
+{
+    rain_init();
+
+    while(1)
+    {
+        rain_update();
+        rain_draw();
+
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+}
 void app_main(void)
 {
    
     led_init();
     test_leds();
 
-    // while(1)
-    // {
-    //     ESP_LOGI(TAG, "Starting LED test");
-    //     draw_diagonal();
-    //     vTaskDelay(pdMS_TO_TICKS(1000));
-    // }
-    while(1)
-    {
-        // for(int y = 0; y < MATRIX_HEIGHT; y++)
-        // {
-        //     draw_horizontal_line(y);
-        //     vTaskDelay(pdMS_TO_TICKS(100));
-        // }
-        moving_dot();
-    }
+    // moving_vertical_bar();
+    rain_effect();
     
 
 }
