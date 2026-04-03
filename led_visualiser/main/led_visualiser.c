@@ -13,6 +13,15 @@
 led_strip_handle_t led_strip;
 static const char *TAG = "matrix";
 
+typedef struct
+{
+    int x;
+    int y;
+} raindrop_t;
+#define MAX_DROPS 20
+
+raindrop_t drops[MAX_DROPS];
+
 void led_init()
 {
     led_strip_config_t strip_config = {
@@ -59,131 +68,6 @@ void matrix_clear()
 {
     led_strip_clear(led_strip);
 }
-
-void draw_diagonal()
-{
-    matrix_clear();
-
-    for(int i=0;i<MATRIX_WIDTH;i++)
-    {
-        matrix_set_pixel(i,i,10,20,2);
-    }
-
-    led_strip_refresh(led_strip);
-}
-void test_leds()
-{
-    for(int i = 0; i < NUM_LEDS; i++)
-    {
-        led_strip_set_pixel(led_strip, i, 0, 255, 0);
-    }
-
-    led_strip_refresh(led_strip);
-}
-void draw_horizontal_line(int y)
-{
-    matrix_clear();
-
-    for(int x = 0; x < MATRIX_WIDTH; x++)
-    {
-        matrix_set_pixel(x, y, 50, 50, 60);
-    }
-
-    led_strip_refresh(led_strip);
-}
-
-void moving_dot()
-{
-    for(int x =0; x <MATRIX_WIDTH; x++)
-    {
-        matrix_clear();
-        matrix_set_pixel(x,5,0,0,20);
-        led_strip_refresh(led_strip);
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
-}
-void draw_box(int x_start, int y_start, int x_finish, int y_finish)
-{
-    matrix_clear(); 
-    for(int x = x_start; x <=x_finish; x++)
-    {
-        for(int y=y_start; y <=y_finish; y++)
-        {
-            if(x== x_start || x == x_finish || y==y_start||y==y_finish)
-            matrix_set_pixel(x,y,5,0,20);
-            // matrix_set_pixel(x, y, x * 10, y * 10, 0);
-        }
-    }
-    led_strip_refresh(led_strip);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-}
-void concentric_squares()
-{
-    while(1)
-    {
-        int x = 3;
-        int y =3;
-        int x_max = x*4;
-        int y_max = y*4;
-
-        while(x <= 8 && y <= 8)
-        {
-            draw_box(x++, y++,x_max--,y_max--);
-
-        }
-        // draw_box();
-    }
-
-}
-void bouncing_dot()
-{
-    int x = 0;
-    int dir = 3;
-
-    while(1)
-    {
-        int y = rand()%MATRIX_HEIGHT;
-        matrix_clear();
-
-        matrix_set_pixel(x, y, 255, 0, 255);
-
-        led_strip_refresh(led_strip);
-        vTaskDelay(pdMS_TO_TICKS(100));
-
-        x += dir;
-
-        if(x == 0 || x == MATRIX_WIDTH - 1)
-            dir = -dir;
-    }
-}
-
-void moving_vertical_bar()
-{ 
-    while(1)
-    {
-        
-        for(int y =0; y<MATRIX_HEIGHT;y++)
-        {
-            matrix_clear();
-            for(int x = 0; x < MATRIX_WIDTH; x++)
-            {
-                matrix_set_pixel(x, y, 50, 50, 60);
-            }
-            led_strip_refresh(led_strip);
-        vTaskDelay(pdMS_TO_TICKS(100));
-        }
-        
-
-    }
-}
-typedef struct
-{
-    int x;
-    int y;
-} raindrop_t;
-#define MAX_DROPS 20
-
-raindrop_t drops[MAX_DROPS];
 
 void rain_init()
 {
